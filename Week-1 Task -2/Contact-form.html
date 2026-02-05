@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Contact Form</title>
+        <style>
+            .body {
+                margin: 20px;
+                font-family: Arial, sans-serif;
+            }
+
+            .main {
+                width: 400px;
+                background: #fff;
+                border: 1px solid black;
+                padding: 25px;
+                margin: 50px;
+                border-radius: 8px;
+            }
+
+            label{
+                display: block;
+            }
+            .submit{
+                align-items : center;
+            }
+        </style>
+    </head>
+    <body> 
+        <div class="main">
+            <h2>Contact @JAS digicrsfttek</h2>
+            <form>
+
+                <label>Name:</label>
+                <input 
+                    type="text" 
+                    required 
+                    placeholder="Your name"
+                    maxlength="30"
+                    title="Name is required and must be under 30 characters">
+
+                <label>Email:</label>
+                <input 
+                    type="email" 
+                    placeholder="Your Email"
+                    required 
+                    title="Please enter a valid email address">
+
+                <label>Phone:</label>
+                <input 
+                    type="text" 
+                    required 
+                    placeholder="Your Phone Number"
+                    maxlength="10"
+                    pattern="[0-9]{10}"
+                    title="Phone number must contain exactly 10 digits">
+                <label>Message:</label>
+                <textarea 
+                    required 
+                    maxlength="200"
+                    placeholder="Write your message here..."
+                    title="Message is required (max 200 characters)">
+                </textarea>
+
+                <hr>
+
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+    </body>
+</html>
