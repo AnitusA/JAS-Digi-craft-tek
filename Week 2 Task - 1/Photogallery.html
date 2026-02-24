@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery | Vision</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #38bdf8;
+            --gradient-start: #38bdf8;
+            --gradient-end: #818cf8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 2rem;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+            letter-spacing: -1px;
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        .gallery {
+            columns: 1;
+            /* Default for mobile */
+            column-gap: 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 600px) {
+            .gallery {
+                columns: 2;
+            }
+        }
+
+        @media (min-width: 900px) {
+            .gallery {
+                columns: 3;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .gallery {
+                columns: 4;
+            }
+        }
+
+        .gallery-item {
+            break-inside: avoid;
+            margin-bottom: 1.5rem;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: var(--card-bg);
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            display: block;
+            border-radius: 16px;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(15, 23, 42, 0.9), transparent);
+            padding: 1.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover .overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .overlay h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+            color: white;
+        }
+
+        .overlay span {
+            font-size: 0.85rem;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            body {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Captured Moments</h1>
+    <p class="subtitle">A visual journey through light and shadow.</p>
+
+    <div class="gallery">
+        <!-- Item 1 -->
+        <div class="gallery-item">
+            <img src="images/img-01.jpg" alt="Misty Mountains">
+            <div class="overlay">
+                <h3>Misty Peaks</h3>
+                <span>Nature</span>
+            </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="gallery-item">
+            <img src="images/img-02.jpg" alt="Sunset Beach">
+            <div class="overlay">
+                <h3>Golden Horizon</h3>
+                <span>Ocean</span>
+            </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="gallery-item">
+            <img src="images/img-03.jpg" alt="Urban Life">
+            <div class="overlay">
+                <h3>City Lights</h3>
+                <span>Urban</span>
+            </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="gallery-item">
+            <img src="images/img-04.jpg" alt="Forest Path">
+            <div class="overlay">
+                <h3>Deep Woods</h3>
+                <span>Nature</span>
+            </div>
+        </div>
+
+        <!-- Item 5 -->
+        <div class="gallery-item">
+            <img src="images/img-05.jpg" alt="Portrait">
+            <div class="overlay">
+                <h3>Quiet moments</h3>
+                <span>People</span>
+            </div>
+        </div>
+
+        <!-- Item 6 -->
+        <div class="gallery-item">
+            <img src="images/img-06.jpg" alt="Canyon">
+            <div class="overlay">
+                <h3>Grand Canyon</h3>
+                <span>Travel</span>
+            </div>
+        </div>
+
+        <!-- Item 7 -->
+        <div class="gallery-item">
+            <img src="images/img-07.jpg" alt="Architecture">
+            <div class="overlay">
+                <h3>Modern Lines</h3>
+                <span>Architecture</span>
+            </div>
+        </div>
+
+        <!-- Item 8 -->
+        <div class="gallery-item">
+            <img src="images/img-08.jpg" alt="Green Valley">
+            <div class="overlay">
+                <h3>Green Valley</h3>
+                <span>Landscape</span>
+            </div>
+        </div>
+
+        <!-- Item 9 -->
+        <div class="gallery-item">
+            <img src="images/img-09.jpg" alt="Adventure">
+            <div class="overlay">
+                <h3>Solo Traveler</h3>
+                <span>Adventure</span>
+            </div>
+        </div>
+
+        <!-- Item 10 -->
+        <div class="gallery-item">
+            <img src="images/img-10.jpg" alt="Night Sky">
+            <div class="overlay">
+                <h3>Starry Night</h3>
+                <span>Space</span>
+            </div>
+        </div>
+
+        <!-- Item 11 -->
+        <div class="gallery-item">
+            <img src="images/img-11.jpg" alt="Forest">
+            <div class="overlay">
+                <h3>Autumn Leaves</h3>
+                <span>Season</span>
+            </div>
+        </div>
+
+        <!-- Item 12 -->
+        <div class="gallery-item">
+            <img src="images/img-12.jpg" alt="Waterfall">
+            <div class="overlay">
+                <h3>Hidden Falls</h3>
+                <span>Water</span>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
