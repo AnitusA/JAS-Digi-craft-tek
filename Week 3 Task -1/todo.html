@@ -26,36 +26,110 @@
 
   <h2>To-Do List</h2>
 
+
   <input type="text" id="taskInput" placeholder="Enter a task">
   <button onclick="addTask()">Add</button>
 
   <ul id="taskList"></ul>
 
   <script>
-    function addTask() {
-      let input = document.getElementById("taskInput");
-      let task = input.value;
+    let tasks = [];
+    let editIndex = null;
 
-      if (task === "") {
-        alert("Please enter a task!");
+    function loadTasks() {
+      const saved = localStorage.getItem('tasks');
+      tasks = saved ? JSON.parse(saved) : [];
+      renderTasks();
+    }
+
+    function saveTasks() {
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+  
+    function renderTasks() {
+      const list = document.getElementById('taskList');
+      list.innerHTML = '';
+      tasks.forEach((task, idx) => {
+        const li = document.createElement('li');
+
+        if (editIndex === idx) {
+          // Edit mode
+          const input = document.createElement('input');
+          input.type = 'text';
+          input.value = task;
+          input.id = 'editInput';
+          li.appendChild(input);
+
+          const saveBtn = document.createElement('button');
+          saveBtn.textContent = 'Save';
+          saveBtn.onclick = function() { updateTask(idx); };
+          li.appendChild(saveBtn);
+
+          const cancelBtn = document.createElement('button');
+          cancelBtn.textContent = 'Cancel';
+          cancelBtn.onclick = function() { editIndex = null; renderTasks(); };
+          li.appendChild(cancelBtn);
+        } else {
+          li.textContent = task;
+
+          // Edit button
+          const editBtn = document.createElement('button');
+          editBtn.textContent = 'Edit';
+          editBtn.onclick = function() { editIndex = idx; renderTasks(); };
+          li.appendChild(editBtn);
+
+          // Delete button
+          const delBtn = document.createElement('button');
+          delBtn.textContent = 'Delete';
+          delBtn.onclick = function() { deleteTask(idx); };
+          li.appendChild(delBtn);
+        }
+
+        list.appendChild(li);
+      });
+    }
+
+    // Create
+    function addTask() {
+      let input = document.getElementById('taskInput');
+      let task = input.value.trim();
+      if (task === '') {
+        alert('Please enter a task!');
         return;
       }
-
-      let li = document.createElement("li");
-      li.textContent = task;
-
-      // Delete button
-      let delBtn = document.createElement("button");
-      delBtn.textContent = "Delete";
-      delBtn.onclick = function() {
-        li.remove();
-      };
-
-      li.appendChild(delBtn);
-      document.getElementById("taskList").appendChild(li);
-
-      input.value = ""; // clear input
+      tasks.push(task);
+      saveTasks();
+      renderTasks();
+      input.value = '';
     }
+
+    // Update
+    function updateTask(idx) {
+      const input = document.getElementById('editInput');
+      const newTask = input.value.trim();
+      if (newTask === '') {
+        alert('Task cannot be empty!');
+        return;
+      }
+      tasks[idx] = newTask;
+      editIndex = null;
+      saveTasks();
+      renderTasks();
+    }
+
+    // Delete
+    function deleteTask(idx) {
+      if (confirm('Delete this task?')) {
+        tasks.splice(idx, 1);
+        if (editIndex === idx) editIndex = null;
+        saveTasks();
+        renderTasks();
+      }
+    }
+
+    // Initial load
+    window.onload = loadTasks;
   </script>
 
 </body>
