@@ -42,19 +42,19 @@
 
     <table>
         <tr>
-            <td onclick="click(0)"></td>
-            <td onclick="click(1)"></td>
-            <td onclick="click(2)"></td>
+            <td onclick="handleCellClick(0)"></td>
+            <td onclick="handleCellClick(1)"></td>
+            <td onclick="handleCellClick(2)"></td>
         </tr>
         <tr>
-            <td onclick="click(3)"></td>
-            <td onclick="click(4)"></td>
-            <td onclick="click(5)"></td>
+            <td onclick="handleCellClick(3)"></td>
+            <td onclick="handleCellClick(4)"></td>
+            <td onclick="handleCellClick(5)"></td>
         </tr>
         <tr>
-            <td onclick="click(6)"></td>
-            <td onclick="click(7)"></td>
-            <td onclick="click(8)"></td>
+            <td onclick="handleCellClick(6)"></td>
+            <td onclick="handleCellClick(7)"></td>
+            <td onclick="handleCellClick(8)"></td>
         </tr>
     </table>
 
@@ -70,7 +70,7 @@
         let player = "X";
 
         // Function when player clicks a cell
-        function click(num) {
+        function handleCellClick(num) {
             // If cell is empty
             if (board[num] === "") {
                 // Put player mark in that cell
@@ -164,7 +164,10 @@
             let cells = document.querySelectorAll("td");
             for (let i = 0; i < cells.length; i++) {
                 cells[i].textContent = "";
-                cells[i].onclick = function() { click(i); };
+                // Use IIFE to fix closure issue
+                cells[i].onclick = (function(index) {
+                    return function() { handleCellClick(index); };
+                })(i);
             }
 
             // Clear result message
