@@ -145,13 +145,13 @@
 							screen.value = basePrefix + base + op + "(" + base + "*" + num + "/100)";
 							return;
 						} else {
-							// for * or /: treat `B%` as `(B/100)` so e.g. A * B% -> A * (B/100)
-							screen.value = prefix + "(" + num + "/100)";
+							// for * or /: treat `B%` as `(B/100)` and append '*' so next input is multiplied
+							screen.value = prefix + "(" + num + "/100)" + "*";
 							return;
 						}
 					} else {
-						// standalone percentage: convert to fraction (e.g., 50% -> 0.5)
-						screen.value = current.slice(0, -num.length) + "(" + num + "/100)";
+						// standalone percentage: convert to fraction and append '*' (e.g., 50% -> (50/100)*)
+						screen.value = current.slice(0, -num.length) + "(" + num + "/100)" + "*";
 						return;
 					}
 				}
