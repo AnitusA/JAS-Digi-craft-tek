@@ -117,10 +117,44 @@
 			const screen = document.getElementById("screen");
 			const keys = document.querySelector(".keys");
 
-			const isOperator = (ch) => ["+", "-", "*", "/", "%"].includes(ch);
+			const isOperator = (ch) => ["+", "-", "*", "/"].includes(ch);
 
 			const appendValue = (value) => {
-				const current = screen.value;
+				let current = screen.value;
+
+				// Special handling for percent (%) to mimic real calculator behavior
+				if (value === "%") {
+					if (current === "") return;
+
+					// find last number in the expression
+					const numMatch = current.match(/(\d*\.?\d+)$/);
+					if (!numMatch) return;
+					const num = numMatch[1];
+					const prefix = current.slice(0, -num.length);
+
+					// check operator immediately before the number
+					const opMatch = prefix.match(/([+\-*/])\s*$/);
+					if (opMatch) {
+						const op = opMatch[1];
+						const beforeOp = prefix.slice(0, -1);
+						if (op === "+" || op === "-") {
+							// for + or -: treat `A + B%` as `A + (A * B / 100)`
+							const baseMatch = beforeOp.match(/(\d*\.?\d+)$/);
+							const base = baseMatch ? baseMatch[1] : "0";
+							const basePrefix = baseMatch ? beforeOp.slice(0, -base.length) : beforeOp;
+							screen.value = basePrefix + base + op + "(" + base + "*" + num + "/100)";
+							return;
+						} else {
+							// for * or /: treat `B%` as `(B/100)` so e.g. A * B% -> A * (B/100)
+							screen.value = prefix + "(" + num + "/100)";
+							return;
+						}
+					} else {
+						// standalone percentage: convert to fraction (e.g., 50% -> 0.5)
+						screen.value = current.slice(0, -num.length) + "(" + num + "/100)";
+						return;
+					}
+				}
 
 				if (isOperator(value)) {
 					if (current === "") return;
@@ -131,7 +165,7 @@
 				}
 
 				if (value === ".") {
-					const parts = current.split(/\+|\-|\*|\/|%/);
+					const parts = current.split(/\+|\-|\*|\//);
 					const last = parts[parts.length - 1];
 					if (last.includes(".")) return;
 				}
